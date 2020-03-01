@@ -1,0 +1,136 @@
+#include<iostream>
+#include<stdlib.h>
+int s=1;
+using namespace std;
+struct node
+{
+    int data;
+    node *next;
+};
+class Q
+{
+private:
+    node *QF,*QB;
+    int capacity;
+public:
+    Q(int x);
+    void enque(int r);
+    void dequee();
+    void view();
+
+};
+Q::Q(int x)
+{
+    QF=QB=NULL;
+    capacity=x;
+}
+void Q::enque(int r)
+{
+    node *newnode;
+    newnode=(node *)malloc(sizeof(node));
+    if(newnode==NULL)
+    {
+        cout<<"Allocation failed"<<endl;
+        system("PAUSE");
+        exit(1);
+    }
+    if(s>capacity)
+    {
+        cout<<"Overflow"<<endl;
+        system("PAUSE");
+        exit(1);
+    }
+    if(QF==NULL)
+    {
+        newnode->data=r;
+        newnode->next=NULL;
+        QF=newnode;
+        QB=newnode;
+        s++;
+    }
+    else
+    {
+        newnode->data=r;
+        QB->next=newnode;
+        newnode->next=NULL;
+        QB=newnode;
+        s++;
+    }
+
+}
+void Q::dequee()
+{
+    if(QF==NULL)
+    {
+        cout<<"Underflow"<<endl;
+        system("PAUSE");
+        return;
+    }
+    else
+    {
+        node *temp;
+        temp=QF;
+        QF=QF->next;
+        free(temp);
+        s--;
+    }
+}
+void Q::view()
+{
+    if(QF==NULL)
+    {
+        cout<<"The list is empty"<<endl;
+        system("PAUSE");
+        return;
+    }
+    node *i;
+    int co=0;
+    for(i=QF; i!=NULL; i=i->next)
+    {
+        co++;
+        cout<<"The data number "<<co<<" is :"<<i->data<<endl;
+    }
+    system("PAUSE");
+}
+int main()
+{
+    int ch=0,z;
+    cout<<"Enter size:";
+    cin>>z;
+    Q myQ(z);
+
+    while(1)
+    {
+        cout<<"---MENU---"<<endl;
+        cout<<"1.ENQUEUE"<<endl;
+        cout<<"2.DEQUEUE"<<endl;
+        cout<<"3.TRAVERSE"<<endl;
+        cout<<"4.Exit"<<endl;
+        cout<<"Enter choice:";
+        cin>>ch;
+        switch(ch)
+        {
+        case 1:
+            int d;
+            cout<<"Enter data:";
+            cin>>d;
+            myQ.enque(d);
+            system("CLS");
+            break;
+        case 2:
+            myQ.dequee();
+            system("CLS");
+            break;
+        case 3:
+            myQ.view();
+            system("CLS");
+            break;
+        case 4:
+            exit(0);
+        default:
+            cout<<"Choice is out of 1-4.Enter again"<<endl;
+
+        }
+
+    }
+}
